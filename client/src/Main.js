@@ -320,25 +320,25 @@ function Main() {
               )}
             {/* </div> */}
             </div>
-            <div id="guidelines" class="mr-4" >
-            <div class="row">
-  <div class="col-sm ml-2 mt-2 " >
-  <div class="card  text-dark" style={{border:0+'px'}}>
-  <img src={'dsccertph3.png'} height="635px" width="700px" class="card-img " alt="..."/>
-  <div class="card-img-overlay">
-    <p style={{fontSize:5+'rem'}} class="card-title "><strong>Certificate</strong> Generation</p>
-    <h3 class="card-text ml-2 ">Celebrating small wins!</h3>
-    <p class="card-text"></p>
+            <div id="guidelines" className="mr-4" >
+            <div className="row">
+  <div className="col-sm ml-2 mt-2 " >
+  <div className="card  text-dark" style={{border:0+'px'}}>
+  <img src={'dsccertph3.png'} height="635px" width="700px" className="card-img " alt="..."/>
+  <div className="card-img-overlay">
+    <p style={{fontSize:5+'rem'}} className="card-title "><strong>Certificate</strong> Generation</p>
+    <h3 className="card-text ml-2 ">Celebrating small wins!</h3>
+    <p className="card-text"></p>
   </div>
 </div>
     
   </div>
-    <div class="col-sm-5 mr-5"  id="outer" >
+    <div className="col-sm-5 mr-5"  id="outer" >
           <Carousel/>
-        <div class="card" id="uploadcard" style={{width:100+'%'}}>
-          <div class="card-body">
-            <h2 class="mt-2" style={{fontSize:2+'rem'}} id="uploadtitle" ><strong>Upload the certificate template</strong></h2>
-            <input class="mt-5"
+        <div className="card" id="uploadcard" style={{width:100+'%'}}>
+          <div className="card-body">
+            <h2 className="mt-2" style={{fontSize:2+'rem'}} id="uploadtitle" ><strong>Upload the certificate template</strong></h2>
+            <input className="mt-5"
               type="file"
               name="template"
               id="image_input"
@@ -411,30 +411,30 @@ function Main() {
           contentLabel="Example Modal"
         >
           <h1 id="#advopts" >Advanced Options</h1>
-          <div className="fcontainer">
-            <div className="inputs">
-              <div className="subject">
+          <div classNameName="fcontainer">
+            <div classNameName="inputs">
+              <div classNameName="subject">
               <label htmlFor="subject_input">Enter Subject : </label>
               <input type="text" name="subject_input" onChange={(e)=>{
                   setEmailSubject(e.target.value)
               }}/>
               </div>
               <br />
-              <div className="email_body">
+              <div classNameName="email_body">
                 <textarea name="email_body"  cols="45" rows="10" onChange={(e)=>{
                   setEmailBody(e.target.value)
                 }}>Enter HTML Body here. Enter $ for name</textarea>
               </div>
               <br />
               
-              <button className="btn btn-primary" id="setemail" type="submit" onClick={()=>{sendEmailFormat();document.getElementById('progressbar').style.width="15%"}}>Set Email Format</button>
+              <button classNameName="btn btn-primary" id="setemail" type="submit" onClick={()=>{sendEmailFormat();document.getElementById('progressbar').style.width="15%"}}>Set Email Format</button>
             </div>
-            <div className="sample-image">
+            <div classNameName="sample-image">
               <img src={emailTemplate} alt="" />
             </div>
           </div>
           
-          <button  className="btn btn-danger" id="close" onClick={closeModal}>Close</button>
+          <button  classNameName="btn btn-danger" id="close" onClick={closeModal}>Close</button>
         </Modal>
         {/* <br /> */}
               {/* <br /> */}
@@ -459,7 +459,7 @@ function Main() {
               <br />
               <input
               data-bs-toggle="tooltip" data-bs-placement="left" title="Text Color"
-              class="btn btn"
+              className="btn btn"
                 id="colors"
                 type="color"
                 onChange={(e) => {
@@ -493,14 +493,14 @@ function Main() {
             </div>
             <div id="controls">
           <br/><br/>
-           <button className="btn btn-light" onClick={openModal}>Set Email Format</button>
+           <button classNameName="btn btn-light" onClick={openModal}>Set Email Format</button>
       
-           <button type="button" class="btn btn-light" data-toggle="modal" data-target="#detailsmodal">
+           <button type="button" className="btn btn-light" data-toggle="modal" data-target="#detailsmodal">
   Enter Sample Text
 </button>
                  
 <select
-class='btn bg-light text-dark'
+className='btn bg-light text-dark'
                 id="fontselect"
                 onChange={(x) => {
                   console.log(x.target.value);
@@ -519,7 +519,7 @@ class='btn bg-light text-dark'
                 
               </select>
               <input
-              className="btn btn-light"
+              classNameName="btn btn-light"
                 id="colorsbut"
                 type="color"
                 onChange={(e) => {
@@ -529,41 +529,41 @@ class='btn bg-light text-dark'
                   
                 }}
               />
-              <button className="btn btn-light" onClick={()=>{fontplus();document.getElementById('progressbar').style.width="70%"}}>Increase Font</button>
-              <button className="btn btn-light" onClick={()=>{fontmin();document.getElementById('progressbar').style.width="70%"}}>Decrease Font</button>
+              <button classNameName="btn btn-light" onClick={()=>{fontplus();document.getElementById('progressbar').style.width="70%"}}>Increase Font</button>
+              <button classNameName="btn btn-light" onClick={()=>{fontmin();document.getElementById('progressbar').style.width="70%"}}>Decrease Font</button>
            
-            <button style={{marginBottom:1+'rem'}} type="button" class="btn btn-light" data-toggle="modal" data-target="#detailsmodal">
+            <button style={{marginBottom:1+'rem'}} type="button" className="btn btn-light" data-toggle="modal" data-target="#detailsmodal">
  Enter Details
 </button>
 <label >Process Progress</label>
-<div class="progress">
-  <div class="progress-bar progress-bar-striped progress-bar-animated" id="progressbar" style={{width: 25+'%'}}></div>
+<div className="progress">
+  <div className="progress-bar progress-bar-striped progress-bar-animated" id="progressbar" style={{width: 25+'%'}}></div>
 </div>
           </div>
           </div>
         </div>
     
 
-<div class="modal fade bd-example-modal-xl" id="detailsmodal" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog modal-xl" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <p class="modal-title" id="exampleModalLabel">Upload CSV -{'>'} Enter sample text -{'>'} Save changes and adjust text -{'>'} Enter Email, Password -{'>'} Upload Template -{'>'} Send Mails!</p>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+<div className="modal fade bd-example-modal-xl" id="detailsmodal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div className="modal-dialog modal-xl" role="document">
+    <div className="modal-content">
+      <div className="modal-header">
+        <p className="modal-title" id="exampleModalLabel">Upload CSV -{'>'} Enter sample text -{'>'} Save changes and adjust text -{'>'} Enter Email, Password -{'>'} Upload Template -{'>'} Send Mails!</p>
+        <button type="button" className="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
+      <div className="modal-body">
       
       <div id="down">
          
-         <p class="hugetext">Enter Details and shoot victories!</p>
-         <div class="flexit">
+         <p className="hugetext">Enter Details and shoot victories!</p>
+         <div className="flexit">
            <div>
-           <label className="label">Upload CSV </label>
+           <label classNameName="label">Upload CSV </label>
            <input id="upcsv" type="file" accept=".csv,.xlsx,.xls" name="csv" onChange={(e)=>{readCSV(e);setcsvuploaded(true);document.getElementById('progressbar').style.width="82%"}} />
            <p style={{marginLeft:1.4+'rem'}}>Upload according to the format specified in guidelines</p><hr/>
-         <label className="label">Enter Sample Text</label>
+         <label classNameName="label">Enter Sample Text</label>
        <input
                id="entertesttext"
                type="text"
@@ -574,13 +574,13 @@ class='btn bg-light text-dark'
                  document.getElementById('progressbar').style.width="35%"
                }}
              /><br/>
-             <label className="label">Email</label>
+             <label classNameName="label">Email</label>
              <input id="email" type="email" placeholder="Enter your email" onChange={(e)=>{
                setEmail(e.target.value)
                
              }} />
              <br/>
-             <label className="label">Password</label>
+             <label classNameName="label">Password</label>
              <input id="password" type="password" placeholder="Enter your password" onChange={(e)=>{
                setPassword(e.target.value)
                document.getElementById('progressbar').style.width="100%"
@@ -588,14 +588,13 @@ class='btn bg-light text-dark'
            
              </div>
              <div>
-             <button className="btn " style={{backgroundImage:'radial-gradient(#002e62,#005d81)',color:'white',width:220+'px',height:60+'px',fontSize:1.3+'rem',marginTop:7+'rem',marginLeft:4+'rem'}} onClick={(e)=>{ if(tempuploaded){uploadTemplate(e);
+             <button classNameName="btn " style={{backgroundImage:'radial-gradient(#002e62,#005d81)',color:'white',width:220+'px',height:60+'px',fontSize:1.3+'rem',marginTop:7+'rem',marginLeft:4+'rem'}} onClick={(e)=>{ if(tempuploaded){uploadTemplate(e);
              document.getElementById('sendmailbut').disabled=false}
              else{
                alert("Please upload the Certificate Image first")
              };document.getElementById('progressbar').style.width="95%"}}>Upload Template</button>
             <br/>
-              <button id="sendmailbut" className="btn " disabled="true" type="button" style={{backgroundImage:'radial-gradient(#002e62,#005d81)',color:'white',height:60+'px',width:220+'px',fontSize:1.3+'rem',marginTop:1+'rem',marginLeft:4+'rem'}}
-               onClick={(e)=>{if(csvuploaded)post(e);else alert("Please upload the CSV first")}}> Send Emails</button>
+              <button id="sendmailbut" classNameName="btn " type="button" style={{backgroundImage:'radial-gradient(#002e62,#005d81)',color:'white',height:60+'px',width:220+'px',fontSize:1.3+'rem',marginTop:1+'rem',marginLeft:4+'rem'}} onClick={post}> Send Emails</button>
              </div>
              </div>
              
@@ -603,10 +602,10 @@ class='btn bg-light text-dark'
 
 
       </div>
-      <div class="modal-footer">
+      <div className="modal-footer">
         <p style={{marginRight:12+'rem'}}>See the guidelines for more understanding</p>
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" className="btn btn-primary">Save changes</button>
       </div>
     </div>
   </div>

@@ -53,10 +53,10 @@ setTimeout(autoslideshow,4000);
         
             <div class="card mb-4 mt-4 " style={{backgroundColor:'#BDC7C9', width:100+'%'}}>
                 <div class="d-flex justify-content-center pb-2 pt-3" >
-            <div className="slide active w-100"><img  height="300px" width="100%" src={"phh1.jpg"}></img></div>
-            <div className="slide w-100"><img height="300px"  width="100%" src={"fin2.png"}></img></div>
-            <div  className="slide w-100"><img  height="300px"  width="100%" src={"Screenshot.png"}></img></div>
-            <div  className="slide w-100"><img   height="300px"  width="100%" src={"Screenshot2.png"}></img></div>
+            <div className="slide active w-100 h-auto"><img  height="300px" width="100%" src={"phh1.jpg"}></img></div>
+            <div className="slide w-100 h-auto"><img height="300px"  width="100%" src={"fin2.png"}></img></div>
+            <div  className="slide w-100 h-auto"><img  height="300px"  width="100%" src={"Screenshot.png"}></img></div>
+            <div  className="slide w-100 h-auto"><img   height="300px"  width="100%" src={"Screenshot2.png"}></img></div>
             </div>
   <div class="card-body pt-0">
   <div class=" pt-2 pb-1 d-flex justify-content-center">
@@ -65,10 +65,10 @@ setTimeout(autoslideshow,4000);
                 <button onClick={()=>{scbybutton(3)}} className="slbutton "></button>
                 <button onClick={()=>{scbybutton(4)}} className="slbutton "></button>
             </div>
-    <p className="card-text text active"><em>Step 1 : Upload the template. Note that the preferred size is 1240 X 700. </em></p>
-    <p  className=" card-text text "><em>Step 2 : From the side-panel, follow the steps sequentially. You can track progress by toggling it. </em></p>
-    <p  className="card-text text "><em>Step 3 : After entering the text, drag the text where you want. You can optionally modify it's font, color nad size from side-panel </em></p>
-    <p  className="card-text text "><em>Step 4 : You can set the Email format. Lastly enter the sender's details and shoot the mails.</em></p>
+    <p className="card-text text active"><em>Step 1 :  </em>Upload the template. Note that the preferred size is 1240 X 700.</p>
+    <p  className=" card-text text "><em>Step 2 :  </em> From the side-panel, follow the steps sequentially. You can track progress by toggling it. </p>
+    <p  className="card-text text "><em>Step 3 : </em> After entering the text, drag the text where you want. You can optionally modify it's font, color nad size from side-panel </p>
+    <p  className="card-text text "><em>Step 4 : </em> You can set the Email format. Lastly enter the sender's details and shoot the mails.</p>
   </div>
 </div>
             

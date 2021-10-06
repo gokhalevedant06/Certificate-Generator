@@ -119,6 +119,7 @@ router.post("/api", async (req, res) => {
     console.log(`Email sent to ${element}`);
   }
   console.log("All emails sent successfully");
+  
 });
 
 module.exports = router;
