@@ -117,6 +117,8 @@ router.post("/api", async (req, res) => {
     let info = await transporter.sendMail(msg);
     console.log("Message sent: %s", info.messageId);
     console.log(`Email sent to ${element}`);
+    // fs.unlink(`./out/${csvNames[i]}-certificate-${certdate}.jpg`,()=>{console.log("cleared")})
+    
   }
   console.log("All emails sent successfully");
   
