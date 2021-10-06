@@ -26,7 +26,8 @@ function Main() {
     const [textColor,setTextColor]=useState("black");
     const [font,setFont]=useState("Open Sans Condensed");
     const [fontfile,setFontfile]=useState("OpenSansCondensed-Light");
-  
+ const [tempuploaded,settempuploaded]=useState(false)
+ const [csvuploaded,setcsvuploaded]=useState(false)
     const [show, setShow] = useState(false);
 
     const handleClose = () => setShow(false);
@@ -334,7 +335,7 @@ function Main() {
   </div>
     <div class="col-sm-5 mr-5"  id="outer" >
           <Carousel/>
-        <div class="card" id="uploadcard" style={{backgroundColor:'#38A3A5',width:100+'%'}}>
+        <div class="card" id="uploadcard" style={{width:100+'%'}}>
           <div class="card-body">
             <h2 class="mt-2" style={{fontSize:2+'rem'}} id="uploadtitle" ><strong>Upload the certificate template</strong></h2>
             <input class="mt-5"
@@ -345,7 +346,7 @@ function Main() {
               onChange={(e) => {
                 document.getElementById("guidelines").style.display = "none";
                 document.getElementById("template").style.position = "absolute";
-                
+                settempuploaded(true)
                 const file = e.target.files[0];
                 if (file) {
                   setImage(file);
@@ -560,7 +561,7 @@ class='btn bg-light text-dark'
          <div class="flexit">
            <div>
            <label className="label">Upload CSV </label>
-           <input id="upcsv" type="file" accept=".csv,.xlsx,.xls" name="csv" onChange={(e)=>{readCSV(e);document.getElementById('progressbar').style.width="82%"}} />
+           <input id="upcsv" type="file" accept=".csv,.xlsx,.xls" name="csv" onChange={(e)=>{readCSV(e);setcsvuploaded(true);document.getElementById('progressbar').style.width="82%"}} />
            <p style={{marginLeft:1.4+'rem'}}>Upload according to the format specified in guidelines</p><hr/>
          <label className="label">Enter Sample Text</label>
        <input
@@ -587,9 +588,14 @@ class='btn bg-light text-dark'
            
              </div>
              <div>
-             <button className="btn " style={{backgroundImage:'radial-gradient(#002e62,#005d81)',color:'white',width:220+'px',height:60+'px',fontSize:1.3+'rem',marginTop:7+'rem',marginLeft:4+'rem'}} onClick={(e)=>{uploadTemplate(e);document.getElementById('progressbar').style.width="95%"}}>Upload Template</button>
+             <button className="btn " style={{backgroundImage:'radial-gradient(#002e62,#005d81)',color:'white',width:220+'px',height:60+'px',fontSize:1.3+'rem',marginTop:7+'rem',marginLeft:4+'rem'}} onClick={(e)=>{ if(tempuploaded){uploadTemplate(e);
+             document.getElementById('sendmailbut').disabled=false}
+             else{
+               alert("Please upload the Certificate Image first")
+             };document.getElementById('progressbar').style.width="95%"}}>Upload Template</button>
             <br/>
-              <button className="btn "  type="button" style={{backgroundImage:'radial-gradient(#002e62,#005d81)',color:'white',height:60+'px',width:220+'px',fontSize:1.3+'rem',marginTop:1+'rem',marginLeft:4+'rem'}} onClick={post}> Send Emails</button>
+              <button id="sendmailbut" className="btn " disabled="true" type="button" style={{backgroundImage:'radial-gradient(#002e62,#005d81)',color:'white',height:60+'px',width:220+'px',fontSize:1.3+'rem',marginTop:1+'rem',marginLeft:4+'rem'}}
+               onClick={(e)=>{if(csvuploaded)post(e);else alert("Please upload the CSV first")}}> Send Emails</button>
              </div>
              </div>
              

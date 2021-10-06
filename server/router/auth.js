@@ -71,7 +71,8 @@ router.post("/api", async (req, res) => {
     var i = parseInt(csvEmails.indexOf(element));
     console.log(i);
     var certdate=Date.now();
-    
+  
+    let emailBody = emailbody.replace('$',`${csvNames[i]}`)
     let image = new Image(`uploads/${fileName}`);
     await image
       .loadFont(`fonts/${fontfile}.ttf`)
@@ -103,7 +104,7 @@ router.post("/api", async (req, res) => {
       from: '" from dsc 👻" <dummy012345689@gmail.com>',
       to: element,
       subject: `${emailsubject}`,
-      html: `${emailbody}`,
+      html: `${emailBody}`,
       attachments: [
         {
           filename: `${csvNames[i]}-certificate-${certdate}.jpg`,
