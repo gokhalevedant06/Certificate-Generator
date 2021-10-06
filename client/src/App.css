@@ -8,6 +8,23 @@
   display: flex;
   width: auto;
 }
+.card-img-overlay{
+ 
+  background:rgba(45, 46, 48, 0.5);
+  box-shadow:0 0 20px rgb(5, 5, 5);
+
+  backdrop-filter: blur(6px);
+  text-align: center;
+  font-weight: 500;
+  color:black;
+  padding: 10%;
+
+
+  
+
+  
+}
+
 
 #template{
   max-height: 100%;
@@ -86,7 +103,12 @@ margin-top: 0px;
 
 }
 #uploadcard{
-  background-image: radial-gradient(rgb(108, 208, 168),rgb(108, 208, 201));
+  /* background-image: radial-gradient(rgb(108, 208, 168),rgb(108, 208, 201)); */
+  background-color: #e5e5f7;
+  opacity: 0.8;
+  background-image: radial-gradient(#444cf7 0.5px, #e5e5f7 0.5px);
+  background-size: 10px 10px;
+  box-shadow:0 0 20px rgb(5, 5, 5);
 
 }
 #outer{
@@ -164,8 +186,10 @@ font-size: 1.1rem;
 }
 
  #side-panel{
- 
-  background-color: #065878d2;
+  background:black;
+  background:rgba(59, 41, 43, 0.6);
+  box-shadow:0 0 20px rgb(5, 5, 5);
+  backdrop-filter: blur(6px);
   color: aliceblue;
   width: 290px;
   padding-left: 0.6rem;
@@ -339,4 +363,9 @@ font-size: 1rem;
   padding-top: 1rem;
   padding-bottom: 1rem;
   background-image: radial-gradient(rgb(58, 126, 155),rgb(71, 157, 134));
+}
+hr {
+          
+  height: 12px;
+ 
 }

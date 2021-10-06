@@ -326,8 +326,15 @@ function App() {
   <div className="card  text-dark" style={{border:0+'px'}}>
   <img src={'dsccertph3.png'} height="635px" width="700px" className="card-img " alt="..."/>
   <div className="card-img-overlay">
-    <p style={{fontSize:5+'rem'}} className="card-title "><strong>Certificate</strong> Generation</p>
-    <h3 className="card-text ml-2 ">Celebrating small wins!</h3>
+    <p style={{fontSize:5+'rem'}} className="card-title ">Certificate Generator</p>
+    <hr
+        style={{
+            color: color,
+            backgroundColor: '#493d46',
+            height: 3
+        }}
+    />
+    <h3 className="card-text ml-2 ">Send all your mails with click of a button.</h3>
     <p className="card-text"></p>
   </div>
 </div>

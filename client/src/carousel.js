@@ -51,12 +51,12 @@ setTimeout(autoslideshow,4000);
     
     return(
         
-            <div class="card mb-4 mt-4 " style={{backgroundColor:'#BDC7C9', width:100+'%'}}>
+            <div class="card mb-4 mt-4 dark " style={{backgroundColor:'#BDC7C9', width:100+'%'}}>
                 <div class="d-flex justify-content-center pb-2 pt-3" >
-            <div className="slide active w-100 h-auto"><img  height="300px" width="100%" src={"phh1.jpg"}></img></div>
-            <div className="slide w-100 h-auto"><img height="300px"  width="100%" src={"fin2.png"}></img></div>
-            <div  className="slide w-100 h-auto"><img  height="300px"  width="100%" src={"Screenshot.png"}></img></div>
-            <div  className="slide w-100 h-auto"><img   height="300px"  width="100%" src={"Screenshot2.png"}></img></div>
+            <div className="slide active w-100 h-auto"><img  height="300px" width="100%" src={"Firstc.png"}></img></div>
+            <div className="slide w-100 h-auto"><img height="300px"  width="100%" src={"secondc.png"}></img></div>
+            <div  className="slide w-100 h-auto"><img  height="300px"  width="100%" src={"thirds.png"}></img></div>
+            <div  className="slide w-100 h-auto"><img   height="300px"  width="100%" src={"fourths.png"}></img></div>
             </div>
   <div class="card-body pt-0">
   <div class=" pt-2 pb-1 d-flex justify-content-center">
