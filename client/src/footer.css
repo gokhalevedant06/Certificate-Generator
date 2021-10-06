@@ -13,12 +13,12 @@
     margin-bottom: 2rem;
   }
   footer{
-      background-color: #161D6F;
+      background-color: #BDC7C9;
     /* margin-top: 0rem; */
     /* height: 20%; */
     color:aliceblue;
     width:100%;
     z-index: -1;
-    position: fixed;
+    position:fixed;
   }
   

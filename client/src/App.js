@@ -578,7 +578,7 @@ function App() {
            {/* <br/> */}
            {/* <br/> */}
             <img
-              src={"plus.png"}
+              src={"expansion.png"}
               onClick={fontplus}
               height="30px"
               width="30px"
