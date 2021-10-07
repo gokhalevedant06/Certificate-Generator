@@ -1,18 +1,6 @@
 <!-- title -->
 <div align="center">
 <h1> DSC Certificate Generator </h1>
-    <a href="https://github.com/gokhalevedant06/Certificate-Generator/fork" target="blank">
-<img src="https://img.shields.io/github/forks/gokhalevedant06/Certificate-Generator?style=flat-square" alt="Certificate-Generator forks"/>
-</a>
-<a href="https://github.com/gokhalevedant06/Certificate-Generator/stargazers" target="blank">
-<img src="https://img.shields.io/github/stars/gokhalevedant06/Certificate-Generator?style=flat-square" alt="Certificate-Generator stars"/>
-</a>
-<a href="https://github.com/gokhalevedant06/Certificate-Generator/issues" target="blank">
-<img src="https://img.shields.io/github/issues/gokhalevedant06/Certificate-Generator?style=flat-square" alt="Certificate-Generator issues"/>
-</a>
-<a href="https://github.com/gokhalevedant06/Certificate-Generator/pulls" target="blank">
-<img src="https://img.shields.io/github/issues-pr/gokhalevedant06/Certificate-Generator?style=flat-square" alt="Certificate-Generator pull-requests"/>
-</a>
 </div>
 
 <!-- description -->
@@ -29,6 +17,20 @@
     <a href="https://github.com/gokhalevedant06/Certificate-Generator/issues/new">Request Feature</a>
 </p>
 <hr>
+<div align="center">
+    <a href="https://github.com/gokhalevedant06/Certificate-Generator/fork" target="blank">
+<img src="https://img.shields.io/github/forks/gokhalevedant06/Certificate-Generator?style=flat-square" alt="Certificate-Generator forks"/>
+</a>
+<a href="https://github.com/gokhalevedant06/Certificate-Generator/stargazers" target="blank">
+<img src="https://img.shields.io/github/stars/gokhalevedant06/Certificate-Generator?style=flat-square" alt="Certificate-Generator stars"/>
+</a>
+<a href="https://github.com/gokhalevedant06/Certificate-Generator/issues" target="blank">
+<img src="https://img.shields.io/github/issues/gokhalevedant06/Certificate-Generator?style=flat-square" alt="Certificate-Generator issues"/>
+</a>
+<a href="https://github.com/gokhalevedant06/Certificate-Generator/pulls" target="blank">
+<img src="https://img.shields.io/github/issues-pr/gokhalevedant06/Certificate-Generator?style=flat-square" alt="Certificate-Generator pull-requests"/>
+</a>
+</div>
 
 ## Usage 🚀
 1. Upload certificate template
