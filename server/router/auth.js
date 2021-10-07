@@ -38,9 +38,9 @@ router.post("/api", async (req, res) => {
     emailsubject,
     emailbody,
     Email,
-    Password
+    Password,
   } = data;
- 
+
   let csvNames = [];
   let csvEmails = [];
 
@@ -50,37 +50,16 @@ router.post("/api", async (req, res) => {
     csvNames.push(element.split(",")[0]);
   });
 
-  console.log("CSV object = ",csvobj);
-  console.log("top = ",top);
-  console.log("left = ",left);
-  console.log("font = ",font);
-  console.log("fontfile = ",fontfile);
-  console.log("fontsize = ",fontsize);
-  console.log("fontsizefinal = ",fontsizefinal);
-  console.log("color = ",color);
-  console.log("filename = ",fileName);
-  console.log("emailsubject = ",emailsubject);
-  console.log("emailbody = ",emailbody);
-  console.log("senderemail = ",senderEmail);
-  console.log("senderpasswrd = ",senderPassword);
-  console.log("CSV emails = ",csvEmails);
-  console.log("CSV names = ",csvNames);
-  
-
   for (const element of csvEmails) {
     var i = parseInt(csvEmails.indexOf(element));
-    console.log(i);
-    var certdate=Date.now();
-  
-    let emailBody = emailbody.replace('$',`${csvNames[i]}`)
+    var certdate = Date.now();
+    let emailBody = emailbody.replace("$", `${csvNames[i]}`);
     let image = new Image(`uploads/${fileName}`);
     await image
       .loadFont(`fonts/${fontfile}.ttf`)
       .draw((ctx) => {
         ctx.fillStyle = color;
         ctx.font = `${fontsize} ${font}`;
-        // ctx.font = `${fontsizefinal} ${font}`;
-        // ctx.fillText(`${csvNames[i]}`, 100,100);
         ctx.fillText(`${csvNames[i]}`, left, top);
       })
       .save(`out/${csvNames[i]}-certificate-${certdate}.jpg`)
@@ -88,17 +67,17 @@ router.post("/api", async (req, res) => {
       .catch((err) => console.log(err));
 
     const transporter = nodemailer.createTransport({
-      service: "gmail",
-      port: 587,
-      secure: false,
+      host: "smtp.gmail.com",
+      port: 465, 
+      secure: true, // true for 465, false for other ports
+      secureConnection: false,
       auth: {
-        // user: Email,
-        // pass: Password,
-        // user: "dummyacc012345689@gmail.com",
-        // pass: "dummy@321",
         user: `${senderEmail}`,
         pass: `${senderPassword}`,
       },
+      tls:{
+        rejectUnAuthorized:true
+    }
     });
     const msg = {
       from: '" from dsc 👻" <dummy012345689@gmail.com>',
@@ -117,11 +96,8 @@ router.post("/api", async (req, res) => {
     let info = await transporter.sendMail(msg);
     console.log("Message sent: %s", info.messageId);
     console.log(`Email sent to ${element}`);
-    // fs.unlink(`./out/${csvNames[i]}-certificate-${certdate}.jpg`,()=>{console.log("cleared")})
-    
   }
   console.log("All emails sent successfully");
-  
 });
 
 module.exports = router;
