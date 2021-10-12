@@ -8,7 +8,7 @@
 <p align="center">Website which generates certificates and sends them via mail
 </p>
 </div>
-<p align="center"><img src="https://i.postimg.cc/zBgYLSQh/Screenshot-911.png" alt="Demo Image" /></p>
+<p align="center"><img src="https://i.postimg.cc/nzHDZhmd/Screenshot-931.png" alt="Demo Image" /></p>
 <p align="center">
     <a href="https://certificate-generator-dsc.herokuapp.com/" target="blank">View Demo</a>
     ·
