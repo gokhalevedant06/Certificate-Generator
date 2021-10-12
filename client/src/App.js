@@ -4,6 +4,7 @@ import Modal from "react-modal";
 import axios from "axios";
 import Footer from "./footer";
 import Carousel from "./carousel.js";
+import uptemp from "./upload_image.png";
 
 function App() {
   var toggled = true;
@@ -23,6 +24,7 @@ function App() {
   const [font, setFont] = useState("Open Sans Condensed");
   const [fontfile, setFontfile] = useState("OpenSansCondensed-Light");
   const [tempuploaded, settempuploaded] = useState(false);
+  const [csvuploaded, setcsvuploaded] = useState("");
   const [fontSize, setFontSize] = useState("2rem");
   const [modalIsOpen, setIsOpen] = useState(false);
   function openModal() {
@@ -33,10 +35,9 @@ function App() {
   }
   const modalBackgroundColor = {
     content: {
-      backgroundColor: "	#4791AF",
+      backgroundColor: "	#c0e6dc",
     },
   };
-
   useEffect(() => {
     if (image) {
       const reader = new FileReader();
@@ -130,7 +131,6 @@ function App() {
    * Stores parsed CSV in csvData state
    */
   //  let csvuploaded=false;
-  var datatosend = [];
   var retrieveddata = [];
   const readCSV = (event) => {
     console.log(event.target.files[0]);
@@ -138,8 +138,8 @@ function App() {
     reader.onload = function (e) {
       const text1 = e.target.result;
       retrieveddata = text1.split("\r\n");
-      datatosend.push(text1);
-      setCsvData(retrieveddata.slice(0, -1));
+      setCsvData(retrieveddata.slice(0, -1))
+      
     };
     reader.readAsText(event.target.files[0]);
   };
@@ -192,10 +192,24 @@ function App() {
     });
     console.log(response);
   };
+
   useEffect(() => {
+    if (
+      csvuploaded.includes("1") &&
+      csvuploaded.includes("2") &&
+      csvuploaded.includes("3") &&
+      csvuploaded.includes("4")
+    ) {
+      document.getElementById("sendmailbut").disabled = false;
+    }
+  }, [csvuploaded]);
+
+  useEffect(() => {
+    document.querySelector("#sendmailbut").disabled = true;
     document.getElementById("progressbar").style.width = "0%";
     document.querySelector("#name").addEventListener("mousedown", mousedown);
     function mousedown(e) {
+      console.log("mousedown");
 
       let init_left = e.target.clientX;
       let init_top = e.target.clientY;
@@ -205,6 +219,7 @@ function App() {
       function mousemove(e) {
         let new_left;
         let new_top;
+        console.log("mousemove");
         new_left = e.clientX - init_left;
         new_top = e.clientY - init_top;
         document.querySelector("#name").style.left =
@@ -217,6 +232,7 @@ function App() {
         init_top = e.clientY;
       }
       function mouseup(e) {
+        console.log("mouseup");
         window.removeEventListener("mousemove", mousemove);
         window.removeEventListener("mouseup", mouseup);
       }
@@ -241,25 +257,22 @@ function App() {
                 <div className="card  text-dark" style={{ border: 0 + "px" }}>
                   <img
                     src={"1_home_left.png"}
-                    height="635px"
+                    height="670px"
                     width="700px"
                     className="card-img "
                     alt="..."
                   />
-                  <div className="card-img-overlay">
+                   <div className="card-img-overlay">
                     <p style={{ fontSize: 5 + "rem" }} className="card-title ">
-                      Certificate Generator
+                    Certificate Generator
                     </p>
-                    <hr
-                      style={{
-                        color: color,
-                        backgroundColor: "#493d46",
-                        height: 3,
-                      }}
-                    />
-                    <h3 className="card-text ml-2 ">
-                      Send all your mails with click of a button.
-                    </h3>
+                    <h2
+                      style={{ fontFamily: "Barlow" }}
+                      className="card-text ml-2 "
+                    >
+                      Send all your mails <br />
+                      with click of a button
+                    </h2>
                     <p className="card-text"></p>
                   </div>
                 </div>
@@ -269,18 +282,26 @@ function App() {
                 <div
                   className="card"
                   id="uploadcard"
-                  style={{ width: 100 + "%" }}
+                  style={{ width: 100 + "%",
+                  backgroundImage: `url(${uptemp})`, }}
                 >
-                  <div className="card-body ">
+                 <div className="card-body">
                     <h2
-                      className="mt-2"
-                      style={{ fontSize: 2 + "rem" }}
+                      className="mt-5"
+                      style={{
+                        fontSize: 2 + "rem",
+                        fontFamily: "Noto Sans Display",
+                      }}
                       id="uploadtitle"
                     >
-                      Upload The Certificate Template
+                      <strong>
+                        Upload The <br />
+                        Certificate Template
+                      </strong>
                     </h2>
                     <input
-                      className="mt-5 "
+                      className="btn btn pl-0  mt-3"
+                      style={{ fontFamily: "Nanum Myeongjo" }}
                       type="file"
                       name="template"
                       id="image_input"
@@ -343,80 +364,101 @@ function App() {
               title="Set Email Format"
             ></i>
 
-            <Modal
-              style={modalBackgroundColor}
+<Modal
+              id="customModal"
               isOpen={modalIsOpen}
               onRequestClose={closeModal}
               contentLabel="Example Modal"
+              style={modalBackgroundColor}
             >
-              <div className="email_modal">
-                <div className="fcontainer">
-                  <div className="inputs">
-                    <div className="subject">
-                      <input
-                        placeholder="Enter Subject here"
-                        type="text"
-                        name="subject_input"
-                        onChange={(e) => {
-                          setEmailSubject(e.target.value);
-                        }}
-                      />
-                    </div>
+              <h1
+                style={{ fontSize: 3 + "rem", fontFamily: "Quicksand" }}
+                id="#advopts"
+              >
+                Advanced Options
+              </h1>
+              <div className="fcontainer">
+                <div className="ml-5 mr-5 inputs">
+                  <div className="subject">
+                    <label
+                      className="label mt-2"
+                      style={{
+                        width: 358 + "px",
+                        marginLeft: 0 + "rem",
+                        fontSize: 1.2 + "rem",
+                      }}
+                      htmlFor="subject_input"
+                    >
+                      Enter Subject 
+                    </label>
                     <br />
-                    <div className="email_body">
-                      <textarea
-                        className="email_textarea"
-                        name="email_body"
-                        cols="45"
-                        rows="10"
-                        onChange={(e) => {
-                          setEmailBody(e.target.value);
-                        }}
-                      >
-                        Enter HTML Body here. Enter $ for name
-                      </textarea>
-                    </div>
-                    <br />
-
-                    <button
-                      className="btn btn-success"
-                      id="setemail"
-                      type="submit"
-                      onClick={() => {
-                        closeModal();
-                        sendEmailFormat();
-                        document.getElementById("progressbar").style.width =
-                          "15%";
+                    <input
+                      style={{
+                        width: 358 + "px",
+                        marginLeft: 0 + "rem",
+                        border: "1.4px solid",
+                        height: 50 + "px"
+                      }}
+                      className="mb-2 mt-2"
+                      type="text"
+                      name="subject_input"
+                      onChange={(e) => {
+                        setEmailSubject(e.target.value);
+                      }}
+                    />
+                  </div>
+                  <br />
+                  <div className="email_body">
+                    <textarea
+                      name="email_body"
+                      cols="45"
+                      rows="10"
+                      style={{
+                        border: "1.4px solid",
+                        paddingLeft: 0.3 + "rem",
+                      }}
+                      onChange={(e) => {
+                        setEmailBody(e.target.value);
                       }}
                     >
-                      Set Email Format
-                    </button>
+                      Enter HTML Body here. Enter $ for name
+                    </textarea>
                   </div>
-                  <div className="sample-image">
-                    <img src="EmailFormat.jpg" alt="" />
-                  </div>
+                  <br />
+
+                  <button
+                    className="btn btn-primary"
+                    id="setemail"
+                    type="submit"
+                    onClick={() => {
+                      sendEmailFormat();
+                      closeModal();
+                      document.getElementById("progressbar").style.width =
+                        "15%";
+                    }}
+                  >
+                    Set Email Format
+                  </button>
+                </div>
+                <div className="sample-image">
+                  <img
+                    style={{ border: "2px solid", borderColor: "#757575" }}
+                    src="EmailFormat.jpg"
+                    className="mr-5 mt-4 "
+                    height="400px"
+                    width="400px"
+                    alt=""
+                  />
                 </div>
               </div>
+
+              
             </Modal>
 
             <i class="fas fa-pen fa-2x" id="pen" title="Enter Example Text"></i>
             <i class="fas fa-font fa-2x" id="font" title="Choose Font"></i>
-            <div className="color_picker">
-              <input
-                data-bs-toggle="tooltip"
-                data-bs-placement="left"
-                title="Text Color"
-                className="btn btn"
-                id="colors"
-                type="color"
-                onChange={(e) => {
-                  setColor(e.target.value);
-                  changeColor();
-                  document.getElementById("progressbar").style.width = "60%";
-                }}
-                style={{ marginTop: 2 + "rem" }}
-              />
-            </div>
+  
+            <i class="fas fa-palette fa-2x" id="color_icon" title="Pick a color for example text"></i>
 
             <i
               class="fas fa-plus fa-2x"
@@ -517,7 +559,7 @@ function App() {
             >
               Enter Details
             </button>
-            <label>Process Progress</label>
+            <label>Progress</label>
             <div className="progress">
               <div
                 className="progress-bar progress-bar-striped progress-bar-animated"
@@ -537,13 +579,9 @@ function App() {
         aria-hidden="true"
       >
         <div className="modal-dialog modal-xl" role="document">
-          <div className="modal-content">
+        <div className="modal-content">
             <div className="modal-header">
-              <p className="modal-title" id="exampleModalLabel">
-                Upload CSV -{">"} Enter sample text -{">"} Save changes and
-                adjust text -{">"} Enter Email, Password -{">"} Upload Template
-                -{">"} Send Mails!
-              </p>
+              
               <button
                 type="button"
                 className="close"
@@ -566,6 +604,7 @@ function App() {
                       name="csv"
                       onChange={(e) => {
                         readCSV(e);
+                        setcsvuploaded(csvuploaded + "1");
                         document.getElementById("progressbar").style.width =
                           "82%";
                       }}
@@ -574,8 +613,6 @@ function App() {
                       Upload according to the format specified in guidelines
                     </p>
                     <hr />
-
-                    <br />
                     <label className="label">Email</label>
                     <input
                       id="email"
@@ -583,11 +620,13 @@ function App() {
                       placeholder="Enter your email"
                       onChange={(e) => {
                         setEmail(e.target.value);
+                        setcsvuploaded(csvuploaded + "2");
                       }}
                     />
                     <br />
                     <label className="label">Password</label>
                     <input
+                      required
                       id="password"
                       type="password"
                       placeholder="Enter your password"
@@ -595,6 +634,7 @@ function App() {
                         setPassword(e.target.value);
                         document.getElementById("progressbar").style.width =
                           "100%";
+                        setcsvuploaded(csvuploaded + "3");
                       }}
                     />
                   </div>
@@ -609,18 +649,18 @@ function App() {
                         fontSize: 1.3 + "rem",
                         marginTop: 7 + "rem",
                         marginLeft: 4 + "rem",
+                        fontFamily: "Barlow",
                       }}
                       onClick={(e) => {
                         if (tempuploaded) {
                           uploadTemplate(e);
-                          document.getElementById(
-                            "sendmailbut"
-                          ).disabled = false;
+                          setcsvuploaded(csvuploaded + "4");
+                          alert("Successfully uploaded Certificate Template");
                         } else {
                           alert("Please upload the Certificate Image first");
                         }
                         document.getElementById("progressbar").style.width =
-                          "95%";
+                          "99%";
                       }}
                     >
                       Upload Template
@@ -638,14 +678,19 @@ function App() {
                         fontSize: 1.3 + "rem",
                         marginTop: 1 + "rem",
                         marginLeft: 4 + "rem",
+                        fontFamily: "Barlow",
                       }}
                       onClick={post}
                     >
+                      {" "}
                       Send Emails
                     </button>
                   </div>
                 </div>
+
+                <hr />
               </div>
+          
             </div>
           </div>
         </div>

@@ -1,20 +1,13 @@
 .slbutton{
     width:2.7rem;
-    /* background-color: #ffffff; */
-    background:black;
-    background:rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(6px);
-   
+    background-color: #f3f3f3;
     height: 0.7rem;
     margin-right: 1rem;
     border:1px solid;
     border-radius: 2rem;
-    border-color: rgba(56, 63, 83, 0.6);
-    
+    border-color: #f1f1f1;
   }
   button.active{
-      background-color:#9adddd;
+      background-color:#005d81;
       border-color: #dddddd;
   }
-
-

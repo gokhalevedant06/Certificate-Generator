@@ -37,18 +37,18 @@ router.post("/api", async (req, res) => {
     fileName,
     emailsubject,
     emailbody,
-    Email,
-    Password,
   } = data;
 
   let csvNames = [];
   let csvEmails = [];
 
-  var fontsizefinal = fontsize * 16;
+
+
   csvobj.forEach((element) => {
     csvEmails.push(element.split(",")[1]);
     csvNames.push(element.split(",")[0]);
   });
+ 
 
   for (const element of csvEmails) {
     var i = parseInt(csvEmails.indexOf(element));
