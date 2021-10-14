@@ -137,10 +137,7 @@ function App() {
     const reader = new FileReader();
     reader.onload = function (e) {
       const text1 = e.target.result;
-      console.log("text1",text1);
-      console.log(typeof(text1));
       retrieveddata = text1.split("\r\n");
-      console.log(retrieveddata);
       if((retrieveddata.length)===1){
       retrieveddata = retrieveddata[0].split('\n')
       }
