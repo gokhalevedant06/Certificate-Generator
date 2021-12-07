@@ -2,9 +2,11 @@ import "./App.css";
 import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
 import axios from "axios";
+import Papa from "papaparse";
 import Footer from "./footer";
 import Carousel from "./carousel.js";
 import uptemp from "./upload_image.png";
+
 
 function App() {
   var toggled = true;
@@ -131,20 +133,23 @@ function App() {
    * Stores parsed CSV in csvData state
    */
   //  let csvuploaded=false;
-  var retrieveddata = [];
+  var FileDataToArray = [];
   const readCSV = (event) => {
     console.log(event.target.files[0]);
     const reader = new FileReader();
     reader.onload = function (e) {
-      const text1 = e.target.result;
-      retrieveddata = text1.split("\r\n");
-      if((retrieveddata.length)===1){
-      retrieveddata = retrieveddata[0].split('\n')
+      const fileData = e.target.result;
+      console.log(fileData)
+      FileDataToArray = fileData.split("\r\n");
+      console.log(FileDataToArray.slice(0, -1))
+      if((FileDataToArray.length)===1){
+      FileDataToArray = FileDataToArray[0].split('\n')
       }
-      setCsvData(retrieveddata.slice(0, -1));
+      setCsvData(FileDataToArray.slice(0, -1));
     };
     reader.readAsText(event.target.files[0]);
   };
+  
 
   // To post data to the sever using fetch API
   const post = async (e) => {
@@ -605,11 +610,32 @@ function App() {
                       accept=".csv,.xlsx,.xls"
                       name="csv"
                       onChange={(e) => {
-                        readCSV(e);
+                        // readCSV(e);
                         setcsvuploaded(csvuploaded + "1");
-                        document.getElementById("progressbar").style.width =
-                          "82%";
-                      }}
+                        // document.getElementById("progressbar").style.width =
+                        //   "82%";
+
+
+                        
+
+                        const files = e.target.files;
+                          console.log(files);
+                          if (files) {
+                            console.log(files[0]);
+                            Papa.parse(files[0], {
+                              complete: function(results) {
+                                console.log("Finished:", results);
+                                setCsvData(results)
+                              }}
+                            )
+                          }
+
+                        }}
+
+
+
+
+                      
                     />
                     <p style={{ marginLeft: 1.4 + "rem" }}>
                       Upload according to the format specified in guidelines

@@ -39,45 +39,42 @@ router.post("/api", async (req, res) => {
     emailbody,
   } = data;
 
-  let csvNames = [];
-  let csvEmails = [];
+  let csvData = csvobj.data;
 
+  for (const element of csvData.slice(1, -1)) {
+    let emailBody = emailbody;
+    for (var i = 0; i < csvData[0].length; i++) {
+      emailBody = emailBody.replace(`$${csvData[0][i]}`, element[i]);
+    }
 
-
-  csvobj.forEach((element) => {
-    csvEmails.push(element.split(",")[1]);
-    csvNames.push(element.split(",")[0]);
-  });
- 
-
-  for (const element of csvEmails) {
-    var i = parseInt(csvEmails.indexOf(element));
-    var certdate = Date.now();
-    let emailBody = emailbody.replace("$", `${csvNames[i]}`);
+    var date = Date.now();
     let image = new Image(`uploads/${fileName}`);
     await image
       .loadFont(`fonts/${fontfile}.ttf`)
       .draw((ctx) => {
         ctx.fillStyle = color;
         ctx.font = `${fontsize} ${font}`;
-        ctx.fillText(`${csvNames[i]}`, left, top);
+        ctx.fillText(`${element[0]}`, left, top);
       })
-      .save(`out/${csvNames[i]}-certificate-${certdate}.jpg`)
+      .save(`out/${element[0]}-certificate-${date}.jpg`)
       .then(() => console.log("Image Saved"))
       .catch((err) => console.log(err));
+    console.log(emailBody);
 
     const transporter = nodemailer.createTransport({
       host: "smtp.gmail.com",
-      port: 465, 
+      port: 465,
       secure: true, // true for 465, false for other ports
       secureConnection: false,
       auth: {
-        user: `${senderEmail}`,
-        pass: `${senderPassword}`,
+        // user: `${senderEmail}`,
+        // pass: `${senderPassword}`,
+        user: 'dummy012345689@gmail.com',
+        pass: 'dummy1234.',
       },
-      tls:{
-        rejectUnAuthorized:true
-    }
+      tls: {
+        rejectUnAuthorized: true,
+      },
     });
     const msg = {
       from: '" from dsc 👻" <dummy012345689@gmail.com>',
@@ -86,8 +83,8 @@ router.post("/api", async (req, res) => {
       html: `${emailBody}`,
       attachments: [
         {
-          filename: `${csvNames[i]}-certificate-${certdate}.jpg`,
-          path: `out/${csvNames[i]}-certificate-${certdate}.jpg`,
+          filename: `${element[0]}-certificate-${date}.jpg`,
+          path: `out/${element[0]}-certificate-${date}.jpg`,
         },
       ],
     };
@@ -95,8 +92,10 @@ router.post("/api", async (req, res) => {
     // send mail with defined transport object
     let info = await transporter.sendMail(msg);
     console.log("Message sent: %s", info.messageId);
-    console.log(`Email sent to ${element}`);
+    console.log(`Email sent to ${element[1]}`);
+    console.log();
   }
+
   console.log("All emails sent successfully");
 });
 
