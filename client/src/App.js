@@ -18,7 +18,7 @@ function App() {
   const [emailSubject, setEmailSubject] = useState("");
   const [emailBody, setEmailBody] = useState("");
   const [top, setTop] = useState(0);
-  const [left, setLeft] = useState(0);
+  const [left, setLeft] = useState([]);
   const [filename, setFileName] = useState("certificate.jpg");
   const [textColor, setTextColor] = useState("black");
   const [font, setFont] = useState("Open Sans Condensed");
@@ -27,6 +27,8 @@ function App() {
   const [csvuploaded, setcsvuploaded] = useState("");
   const [fontSize, setFontSize] = useState("2rem");
   const [modalIsOpen, setIsOpen] = useState(false);
+  const [logs,setLogs]=useState(" ")
+  const [csvallNames,setcsvallNames]=useState([])
   function openModal() {
     setIsOpen(true);
   }
@@ -90,7 +92,33 @@ function App() {
       parseFloat(text.style.top) +
         1.017 * parseFloat(window.getComputedStyle(text).fontSize, 10)
     );
-    setLeft(parseFloat(text.style.left));
+    let middle=parseFloat(text.style.left)+(text.getBoundingClientRect().width)/2
+    // setLeft(parseFloat(text.style.left));
+    let testingelement=document.createElement('div')
+    document.getElementById('main').appendChild(testingelement)
+    csvData.forEach(element => {
+      testingelement.innerHTML='<p id="testtext">'+element.split(',')[0]+'</p>';
+      let mainele=document.getElementById('testtext')
+      // mainele.style.visibility="hidden"
+      console.log("first",mainele,fontSize)
+      mainele.style.fontSize=fontSize+"px"
+      console.log("next")
+
+      console.log(testingelement.innerHTML)
+      // let newleft=middle-(mainele.getBoundingClientRect().width)/2
+      let newleft=middle-parseFloat(window.getComputedStyle(mainele).width)/2
+      if(newleft>0){
+        console.log("comeon see ur left now",...left,typeof left)
+        setLeft(left =>[...left,newleft])
+      }
+      else{
+        setLeft(left =>[...left,0])
+      }
+      console.log("  ",newleft,"   ")
+    });
+    console.log("FINAL LEFT",left)
+   
+    
     setTextColor(text.style.color);
     var protofont = text.style.fontFamily;
     if (protofont === "Carattere, cursive") {
@@ -168,10 +196,54 @@ function App() {
         emailsubject: emailSubject,
         emailbody: emailBody,
       }),
-    });
-    console.log(res);
+    })
     alert("Sending Mails");
   };
+//fetch api for getting logs of sent emails
+  const getlogs=async (e) =>{
+      e.preventDefault();
+     return  await fetch (
+        "/logs" , {method : "GET"}
+      )
+      .then(res => res.json())
+      // .then(loggs => {
+      //   console.log( loggs)
+      // })
+      .catch((msg)=>{
+        console.log(msg)
+      })
+    console.log("running")
+    }
+    var abcd=[1,2,3]
+
+  const continuouslogs =(e)=>{
+    var prev=""
+    var curr="ok"
+  while(logs!="All mails sent successfully"){
+    // console.log("workings")
+    if(prev!=curr){
+      console.log("again doing it",logs)
+      prev=curr;
+      getlogs(e).then((loggs)=>{curr=loggs.log; console.log(curr)})
+    }
+    else{
+      console.log("aren't logs updating? ",logs)
+      getlogs(e).then((loggs)=>{curr=loggs.log; console.log(curr)})
+    }
+    
+  }
+
+  // for(const a of abcd){
+    
+  //   getlogs(e)
+  // }
+  
+  }
+
+//   useEffect(()=>{
+// console.log("HERE ARE LOGS",logs)
+
+// },[logs])
 
   const sendEmailFormat = () => {
     console.log("Email format Set");
@@ -687,6 +759,7 @@ function App() {
                       {" "}
                       Send Emails
                     </button>
+                    <button onClick={continuouslogs}>Get Logs</button>
                   </div>
                 </div>
 

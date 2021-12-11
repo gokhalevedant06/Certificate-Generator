@@ -21,38 +21,6 @@ router.post("/upload", (req, res) => {
     res.send("Error uploading file");
   }
 });
-var i=null;
-var currRecipient=null;
-var recipientlength;
-const setRecipient =(csvNames)=>{
-  if(i!==csvNames.length)
-  currRecipient=csvNames[i];
-  else
-  currRecipient="All mails sent successfully"
-}
-const getCounter =()=>{
-  if(i!=null)
-  return String((i)*100/recipientlength);
-  else
-  return "0"
-}
-showrecipients=()=>{
-  
-    if(currRecipient!=null)
-    return currRecipient
-  else {
-    // console.log("currreicieu",currRecipient)
-  return 'Please initiate the sending process'
-  }
-
-}
-router.get('/logs',(req,res)=>{
-  let logs ={
-    count :getCounter(),
-    log: showrecipients()
-}
-  res.send(logs);
-})
 
 router.post("/api", async (req, res) => {
   const data = req.body;
@@ -80,9 +48,9 @@ router.post("/api", async (req, res) => {
     csvEmails.push(element.split(",")[1]);
     csvNames.push(element.split(",")[0]);
   });
-  recipientlength=csvNames.length
-  i=0
-  setRecipient(csvNames)
+ 
+  var i=0
+
   for (const element of csvEmails) {
     // var i = parseInt(csvEmails.indexOf(element));
     var certdate = Date.now();
@@ -129,14 +97,10 @@ router.post("/api", async (req, res) => {
     let info = await transporter.sendMail(msg);
     console.log("Message sent: %s", info.messageId);
     console.log(`Email sent to ${csvEmails[i]}`);
-    
-    i++;
-    setRecipient(csvNames)
-    
+   i++
   }
   console.log("All emails sent successfully");
 });
-
 
 
 module.exports = router;
