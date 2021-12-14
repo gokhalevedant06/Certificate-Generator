@@ -50,9 +50,9 @@ setTimeout(autoslideshow,6000);
     
     return(
         
-            <div className="card mb-4 mt-3 " style={{backgroundColor:'#dfdfdf', width:100+'%'}}>
+            <div className="card mb-3 mt-3 " style={{backgroundColor:'#dfdfdf', width:100+'%'}}>
                 <div className="d-flex justify-content-center pb-2 pt-3" >
-            <div className="slide active w-100 h-auto"><img alt=""  height="300px" width="100%" src={"11_guidelines.jpg"}></img></div>
+            <div className="slide active w-100 h-auto"><img alt=""  height="300px" width="100%" src={"15_guidelines.jpg"}></img></div>
             <div className="slide w-100 h-auto"><img alt="" height="300px"  width="100%" src={"12_guidelines.jpg"}></img></div>
             <div  className="slide w-100 h-auto"><img alt="" height="300px"  width="100%" src={"13_guidelines.jpg"}></img></div>
             <div  className="slide w-100 h-auto"><img  alt="" height="300px"  width="100%" src={"14_guidelines.jpg"}></img></div>
@@ -65,11 +65,11 @@ setTimeout(autoslideshow,6000);
                 <button onClick={()=>{scbybutton(4)}} className="slbutton "></button>
             </div>
     <p className="card-text text active" style={{marginBottom:0+'rem'}}><em><b>Step 1 :</b> 
-         </em> Upload the template <b>1240 X 700 px</b>(preferred). Note that <b>.jfif</b> extension is <b>not</b> compatible. Go through side-panel tools sequentially.</p>
+         </em> Upload the template <b>1240 X 700 px</b>(preferred). Note that <b>.jfif</b> extension is <b>not</b> compatible. Go through side-panel tools sequentially.<b> Get logs of mails sent.</b></p>
     <p  className=" card-text text " style={{marginBottom:0+'rem'}}><em><b>Step 2 :</b> 
          </em>After entering, <b>drag</b> the text to position where you want the CSV names to appear.<b>Hover</b> over side-panel <b>shortcuts</b> to know what they're or <b>toggle</b> it.</p>
     <p  className="card-text text " style={{marginBottom:0+'rem'}}><em><b>Step 3 :</b>
-         </em> You can <b>customize the email</b> subject and body from 'Set Email Format'. Use <b>$ notation</b> for dynamic CSV name to appear in body. </p>
+         </em> You can <b>customize the email</b> subject and body from 'Set Email Format'. Use <b>column names in CSV</b> for dynamic data to appear in body. </p>
     <p  className="card-text text " style={{marginBottom:0+'rem'}}><em><b>Step 4 :</b> 
         </em> Lastly upload the CSV of containing names and emails. Click on <b>Upload template</b> and then <b>Send Mails</b> to shoot the mails.</p>
   </div>

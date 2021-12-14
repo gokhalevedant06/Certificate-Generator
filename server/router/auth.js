@@ -21,14 +21,17 @@ router.post("/upload", (req, res) => {
     res.send("Error uploading file");
   }
 });
+
+
 var i=null;
 var currRecipient=null;
 var recipientlength;
-const setRecipient =(csvNames)=>{
-  if(i!==csvNames.length)
-  currRecipient=csvNames[i];
+
+const setRecipient =(recipient_name)=>{
+  if(i!==recipientlength)
+  currRecipient=recipient_name;
   else
-  currRecipient="All mails sent successfully"
+  currRecipient="All mails sent sucessfully"
 }
 const getCounter =()=>{
   if(i!=null)
@@ -41,11 +44,11 @@ showrecipients=()=>{
     if(currRecipient!=null)
     return currRecipient
   else {
-    // console.log("currreicieu",currRecipient)
   return 'Please initiate the sending process'
   }
 
 }
+
 router.get('/logs',(req,res)=>{
   let logs ={
     count :getCounter(),
@@ -71,34 +74,35 @@ router.post("/api", async (req, res) => {
     emailbody,
   } = data;
 
-  let csvNames = [];
-  let csvEmails = [];
-
-
-
-  csvobj.forEach((element) => {
-    csvEmails.push(element.split(",")[1]);
-    csvNames.push(element.split(",")[0]);
-  });
-  recipientlength=csvNames.length
+  let csvData = csvobj.data;
+  
+  let recipients =csvData.slice(1,-1)
+  
+  recipientlength=recipients.length
   i=0
-  setRecipient(csvNames)
-  for (const element of csvEmails) {
-    // var i = parseInt(csvEmails.indexOf(element));
-    var certdate = Date.now();
-    let emailBody = emailbody.replace("$", `${csvNames[i]}`);
+  setRecipient(null)
+
+  for (const element of recipients) {
+    var date = Date.now();
+    
+    let emailBody = emailbody;
+    for (var j = 0; j < csvData[0].length; j++) {
+      emailBody = emailBody.replace(`${csvData[0][j]}`, element[j]);
+    }
+    console.log(emailBody);
+
     let image = new Image(`uploads/${fileName}`);
     await image
       .loadFont(`fonts/${fontfile}.ttf`)
       .draw((ctx) => {
         ctx.fillStyle = color;
         ctx.font = `${fontsize} ${font}`;
-        ctx.fillText(`${csvNames[i]}`, left[i], top);
+        ctx.fillText(`${element[0]}`, left[i], top);
       })
-      .save(`out/${csvNames[i]}-certificate-${certdate}.jpg`)
+      .save(`out/${element[0]}-certificate-${date}.jpg`)
       .then(() => console.log("Image Saved"))
       .catch((err) => console.log(err));
-
+    
     const transporter = nodemailer.createTransport({
       host: "smtp.gmail.com",
       port: 465, 
@@ -114,13 +118,13 @@ router.post("/api", async (req, res) => {
     });
     const msg = {
       from: '" from dsc 👻" <dummy012345689@gmail.com>',
-      to: csvEmails[i],
+      to: element[1],
       subject: `${emailsubject}`,
       html: `${emailBody}`,
       attachments: [
         {
-          filename: `${csvNames[i]}-certificate-${certdate}.jpg`,
-          path: `out/${csvNames[i]}-certificate-${certdate}.jpg`,
+          filename: `${element[0]}-certificate-${date}.jpg`,
+          path: `out/${element[0]}-certificate-${date}.jpg`,
         },
       ],
     };
@@ -128,10 +132,10 @@ router.post("/api", async (req, res) => {
     // send mail with defined transport object
     let info = await transporter.sendMail(msg);
     console.log("Message sent: %s", info.messageId);
-    console.log(`Email sent to ${csvEmails[i]}`);
+    console.log(`Email sent to ${element[0]}`);
     
     i++;
-    setRecipient(csvNames)
+    setRecipient(element[0])
     
   }
   console.log("All emails sent successfully");

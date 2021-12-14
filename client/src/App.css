@@ -203,22 +203,27 @@ padding: 5px;
   color: snow;
 }
 #toggle {
-  margin-top: 0.5rem;
+  margin-top: 1rem;
   border-radius: 0.5rem;
   margin-bottom: 0.3rem;
 }
 #controls button,
 select,
-input {
+#entertesttext, #colorsbut {
+  font-size: 1.2rem;
+  padding-left: 1rem;
+  width: 85%;
+  padding-right: 1rem;
+  margin-bottom: 15%;
+}
+ #email,#password,#upcsv{
   font-size: 1.2rem;
   padding-left: 1rem;
   width: 85%;
   padding-right: 1rem;
   margin-bottom: 3rem;
 }
-#controls input {
-  width: 85%;
-}
+
 #csvlabel {
   font-size: 1.4rem;
 }
@@ -269,10 +274,9 @@ input {
 .hugetext {
   font-size: 3rem;
   margin-left: 1rem;
-  /* margin-top: 0.9rem; */
-
   font-family: "Quicksand", sans-serif;
 }
+
 #tools {
   margin-right: 0.1rem;
   width: 50px;
@@ -353,34 +357,19 @@ hr {
   height: 40px;
   border-radius: 5px;
 }
-
 #envelope{
-  margin-top: 20px;
-}
-#pen{
-  margin-top: 55px;
-}
-#font{
-  margin-top: 57px;
-}
-.color_picker{
-  margin-top: 22px;
-}
-#fontplus{
-  margin-top: 60px;
-}
-#fontminus{
-  margin-top: 60px;
-}
-#key{
-  margin-top: 60px;
-}
-#color_icon{
-  margin-top: 55px;
+  margin-top: 15px;
 }
 
+#tools .fas{
+margin-bottom: 95%;
+}
 #customModal{
   width: max-content;
  margin-left: 15%;
  background-color: #757575;
+}
+
+#outer .card .card-body{
+  padding: 0.75rem;
 }

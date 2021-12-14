@@ -2,6 +2,7 @@ import "./App.css";
 import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
 import axios from "axios";
+import Papa from "papaparse";
 import Footer from "./footer";
 import Carousel from "./carousel.js";
 import uptemp from "./upload_image.png";
@@ -27,8 +28,6 @@ function App() {
   const [csvuploaded, setcsvuploaded] = useState("");
   const [fontSize, setFontSize] = useState("2rem");
   const [modalIsOpen, setIsOpen] = useState(false);
-  const [logs,setLogs]=useState(" ")
-  const [csvallNames,setcsvallNames]=useState([])
   function openModal() {
     setIsOpen(true);
   }
@@ -84,7 +83,9 @@ function App() {
   };
 
 
-  // To generate certificates
+  /**
+   * To generate certificates
+   */
   const generate_certificate = () => {
     var text = document.querySelector("#name");
     setFontSize(parseInt(text.style.fontSize));
@@ -92,32 +93,32 @@ function App() {
       parseFloat(text.style.top) +
         1.017 * parseFloat(window.getComputedStyle(text).fontSize, 10)
     );
+
     let middle=parseFloat(text.style.left)+(text.getBoundingClientRect().width)/2
-    // setLeft(parseFloat(text.style.left));
     let testingelement=document.createElement('div')
     document.getElementById('main').appendChild(testingelement)
-    csvData.forEach(element => {
-      testingelement.innerHTML='<p id="testtext">'+element.split(',')[0]+'</p>';
-      let mainele=document.getElementById('testtext')
-      // mainele.style.visibility="hidden"
-      console.log("first",mainele,fontSize)
-      mainele.style.fontSize=fontSize+"px"
-      console.log("next")
 
-      console.log(testingelement.innerHTML)
-      // let newleft=middle-(mainele.getBoundingClientRect().width)/2
+    let leftindices=[]
+    csvData.data.slice(1,-1).forEach(element => {
+
+      testingelement.innerHTML='<p id="testtext">'+element[0]+'</p>';
+      let mainele=document.getElementById('testtext')
+      testingelement.style.visibility="hidden"
+      console.log(mainele,fontSize)
+      mainele.style.fontSize=fontSize+"px"
+     
+      // console.log(testingelement.innerHTML)
       let newleft=middle-parseFloat(window.getComputedStyle(mainele).width)/2
       if(newleft>0){
-        console.log("comeon see ur left now",...left,typeof left)
-        setLeft(left =>[...left,newleft])
+        leftindices.push(newleft)
       }
       else{
-        setLeft(left =>[...left,0])
+        leftindices.push(0)
       }
-      console.log("  ",newleft,"   ")
     });
-    console.log("FINAL LEFT",left)
-   
+    setLeft(leftindices)
+    console.log("LEFT",left)
+  
     
     setTextColor(text.style.color);
     var protofont = text.style.fontFamily;
@@ -153,29 +154,12 @@ function App() {
     }
 
   };
-
-  /**
-   * To parse CSV
-   * Stores parsed CSV in csvData state
+ 
+  /** To post data to the sever using fetch API
    */
-  //  let csvuploaded=false;
-  var retrieveddata = [];
-  const readCSV = (event) => {
-    console.log(event.target.files[0]);
-    const reader = new FileReader();
-    reader.onload = function (e) {
-      const text1 = e.target.result;
-      retrieveddata = text1.split("\r\n");
-      if((retrieveddata.length)===1){
-      retrieveddata = retrieveddata[0].split('\n')
-      }
-      setCsvData(retrieveddata.slice(0, -1));
-    };
-    reader.readAsText(event.target.files[0]);
-  };
-
-  // To post data to the sever using fetch API
   const post = async (e) => {
+    setcsvuploaded(csvuploaded + "5");
+    console.log("csvuploaded",csvuploaded)
     e.preventDefault();
     const res = await fetch("/api", {
       method: "POST",
@@ -197,53 +181,53 @@ function App() {
         emailbody: emailBody,
       }),
     })
-    alert("Sending Mails");
+  
+   console.log("RESPONSE",res)
   };
-//fetch api for getting logs of sent emails
+
+/**
+ * fetch api for getting logs of sent emails
+ */
   const getlogs=async (e) =>{
       e.preventDefault();
      return  await fetch (
         "/logs" , {method : "GET"}
       )
       .then(res => res.json())
-      // .then(loggs => {
-      //   console.log( loggs)
+      // .then(logobj => {
+      //   console.log( logobj)
       // })
       .catch((msg)=>{
         console.log(msg)
       })
-    console.log("running")
+   
     }
-    var abcd=[1,2,3]
-
+   
+var gettinglogs="....";
   const continuouslogs =(e)=>{
-    var prev=""
-    var curr="ok"
-  while(logs!="All mails sent successfully"){
-    // console.log("workings")
-    if(prev!=curr){
-      console.log("again doing it",logs)
-      prev=curr;
-      getlogs(e).then((loggs)=>{curr=loggs.log; console.log(curr)})
-    }
-    else{
-      console.log("aren't logs updating? ",logs)
-      getlogs(e).then((loggs)=>{curr=loggs.log; console.log(curr)})
-    }
-    
-  }
-
-  // for(const a of abcd){
-    
-  //   getlogs(e)
-  // }
+    getlogs(e).then((logobj)=>{
+      // console.log("LOGS ",logobj)
+      if(gettinglogs!==logobj.log){
+        document.getElementById("progressbar").style.width =String(logobj.count) +"%"
+        if(logobj.log!=="All mails sent sucessfully"){
+          document.getElementById("logslabel").innerText=`Sending mail to ${logobj.log}`
+        }
+        else{
+          document.getElementById("logslabel").innerText=logobj.log
+            console.log("recursion ends here")
+          return 0;
+        }
+        console.log(logobj,gettinglogs)
+        gettinglogs=logobj.log
+        continuouslogs(e)
+      }
+     else{
+      continuouslogs(e)
+     }
   
+     })
+
   }
-
-//   useEffect(()=>{
-// console.log("HERE ARE LOGS",logs)
-
-// },[logs])
 
   const sendEmailFormat = () => {
     console.log("Email format Set");
@@ -276,14 +260,26 @@ function App() {
     ) {
       document.getElementById("sendmailbut").disabled = false;
     }
+    if (
+      csvuploaded.includes("1") &&
+      csvuploaded.includes("2") &&
+      csvuploaded.includes("3") &&
+      csvuploaded.includes("4") &&
+      csvuploaded.includes("5") 
+
+    ) {
+      document.getElementById("emaillogs").disabled = false;
+    }
   }, [csvuploaded]);
 
+ 
   useEffect(() => {
     document.querySelector("#sendmailbut").disabled = true;
+    document.querySelector("#emaillogs").disabled = true;
     document.getElementById("progressbar").style.width = "0%";
     document.querySelector("#name").addEventListener("mousedown", mousedown);
     function mousedown(e) {
-      console.log("mousedown");
+      // console.log("mousedown");
 
       let init_left = e.target.clientX;
       let init_top = e.target.clientY;
@@ -293,7 +289,7 @@ function App() {
       function mousemove(e) {
         let new_left;
         let new_top;
-        console.log("mousemove");
+        // console.log("mousemove");
         new_left = e.clientX - init_left;
         new_top = e.clientY - init_top;
         document.querySelector("#name").style.left =
@@ -306,7 +302,7 @@ function App() {
         init_top = e.clientY;
       }
       function mouseup(e) {
-        console.log("mouseup");
+        // console.log("mouseup");
         window.removeEventListener("mousemove", mousemove);
         window.removeEventListener("mouseup", mouseup);
       }
@@ -331,7 +327,7 @@ function App() {
                 <div className="card  text-dark" style={{ border: 0 + "px" }}>
                   <img
                     src={"1_home_left.png"}
-                    height="670px"
+                    height="650px"
                     width="700px"
                     className="card-img "
                     alt="..."
@@ -407,7 +403,6 @@ function App() {
           <div id="tools">
             <img
             alt=""
-              marginLeft="0rem"
               id="toggle"
               height="39px"
               width="38px"
@@ -432,13 +427,13 @@ function App() {
             />
 
             <i
-              class="fas fa-envelope fa-2x"
+              className="fas fa-envelope fa-2x"
               id="envelope"
               onClick={openModal}
               title="Set Email Format"
             ></i>
 
-<Modal
+        <Modal
               id="customModal"
               isOpen={modalIsOpen}
               onRequestClose={closeModal}
@@ -507,8 +502,6 @@ function App() {
                     onClick={() => {
                       sendEmailFormat();
                       closeModal();
-                      document.getElementById("progressbar").style.width =
-                        "15%";
                     }}
                   >
                     Set Email Format
@@ -529,31 +522,31 @@ function App() {
               
             </Modal>
 
-            <i class="fas fa-pen fa-2x" id="pen" title="Enter Example Text"></i>
-            <i class="fas fa-font fa-2x" id="font" title="Choose Font"></i>
+            <i className="fas fa-pen fa-2x" id="pen" title="Enter Example Text"></i>
+            <i className="fas fa-font fa-2x" id="font" title="Choose Font"></i>
   
-            <i class="fas fa-palette fa-2x" id="color_icon" title="Pick a color for example text"></i>
+            <i className="fas fa-palette fa-2x" id="color_icon" title="Pick a color for example text"></i>
 
             <i
-              class="fas fa-plus fa-2x"
+              className="fas fa-plus fa-2x"
               title="Increase Font"
               id="fontplus"
               onClick={() => {
                 fontplus();
-                document.getElementById("progressbar").style.width = "70%";
               }}
             ></i>
             <i
-              class="fas fa-minus fa-2x"
+              className="fas fa-minus fa-2x"
               title="Decrease Font"
               id="fontminus"
               onClick={() => {
                 fontmin();
-                document.getElementById("progressbar").style.width = "70%";
               }}
             ></i>
 
-            <i class="fas fa-key fa-2x" id="key" title="Sender's details"></i>
+            <i className="fas fa-key fa-2x" id="key" title="Sender's details"></i>
+            <i className="fas fa-clipboard-check fa-2x" ></i>
+            <i className="fas fa-spinner fa-2x"></i>
           </div>
           <div id="controls">
             <br />
@@ -569,7 +562,6 @@ function App() {
                 placeholder="Enter your name"
                 onChange={(e) => {
                   setName(e.target.value);
-                  document.getElementById("progressbar").style.width = "35%";
                 }}
               />
             </div>
@@ -579,7 +571,6 @@ function App() {
               onChange={(x) => {
                 document.getElementById("name").style.fontFamily =
                   x.target.value;
-                document.getElementById("progressbar").style.width = "48%";
               }}
             >
               <option value="'Oswald', sans-serif">Oswald</option>
@@ -602,14 +593,12 @@ function App() {
               onChange={(e) => {
                 setColor(e.target.value);
                 changeColor();
-                document.getElementById("progressbar").style.width = "60%";
               }}
             />
             <button
               className="btn btn-light"
               onClick={() => {
                 fontplus();
-                document.getElementById("progressbar").style.width = "70%";
               }}
             >
               Increase Font
@@ -618,14 +607,13 @@ function App() {
               className="btn btn-light"
               onClick={() => {
                 fontmin();
-                document.getElementById("progressbar").style.width = "70%";
               }}
             >
               Decrease Font
             </button>
 
             <button
-              style={{ marginBottom: 1 + "rem" }}
+              // style={{ marginBottom: 1 + "rem" }}
               type="button"
               className="btn btn-light"
               data-toggle="modal"
@@ -633,14 +621,17 @@ function App() {
             >
               Enter Details
             </button>
-            <label>Progress</label>
+            <button className="btn btn-light" id="emaillogs" onClick={continuouslogs}>Get Logs</button>
+            <label id="logslabel">Email Progress Logs</label>
             <div className="progress">
               <div
                 className="progress-bar progress-bar-striped progress-bar-animated"
                 id="progressbar"
-                style={{ width: 25 + "%" }}
+                style={{ width: 0 + "%" }}
               ></div>
             </div>
+
+
           </div>
         </div>
       </div>
@@ -648,7 +639,6 @@ function App() {
       <div
         className="modal fade bd-example-modal-xl"
         id="detailsmodal"
-        tabindex="-1"
         role="dialog"
         aria-hidden="true"
       >
@@ -672,16 +662,32 @@ function App() {
                   <div>
                     <label className="label">Upload CSV </label>
                     <input
-                      id="upcsv"
-                      type="file"
-                      accept=".csv,.xlsx,.xls"
-                      name="csv"
-                      onChange={(e) => {
-                        readCSV(e);
-                        setcsvuploaded(csvuploaded + "1");
-                        document.getElementById("progressbar").style.width =
-                          "82%";
-                      }}
+                     id="upcsv"
+                     type="file"
+                     accept=".csv,.xlsx,.xls"
+                     name="csv"
+                     onChange={(e) => {
+                       // readCSV(e);
+                       /**
+                          * To parse CSV
+                          * Stores parsed CSV in csvData state
+                        */
+                       setcsvuploaded(csvuploaded + "1");
+                       const files = e.target.files;
+                         console.log(files);
+                         if (files) {
+                           console.log(files[0]);
+                           Papa.parse(files[0], {
+                             complete: function(results) {
+                               console.log("Finished:", results);
+                               setCsvData(results)
+                             }}
+                           )
+                         }
+
+                       }}
+
+
                     />
                     <p style={{ marginLeft: 1.4 + "rem" }}>
                       Upload according to the format specified in guidelines
@@ -706,8 +712,7 @@ function App() {
                       placeholder="Enter your password"
                       onChange={(e) => {
                         setPassword(e.target.value);
-                        document.getElementById("progressbar").style.width =
-                          "100%";
+                        
                         setcsvuploaded(csvuploaded + "3");
                       }}
                     />
@@ -733,8 +738,7 @@ function App() {
                         } else {
                           alert("Please upload the Certificate Image first");
                         }
-                        document.getElementById("progressbar").style.width =
-                          "99%";
+                       
                       }}
                     >
                       Upload Template
@@ -759,7 +763,7 @@ function App() {
                       {" "}
                       Send Emails
                     </button>
-                    <button onClick={continuouslogs}>Get Logs</button>
+                    
                   </div>
                 </div>
 
