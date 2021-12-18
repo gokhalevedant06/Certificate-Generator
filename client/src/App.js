@@ -39,6 +39,7 @@ function App() {
       backgroundColor: "	#c0e6dc",
     },
   };
+
   useEffect(() => {
     if (image) {
       const reader = new FileReader();
@@ -82,7 +83,6 @@ function App() {
     document.getElementById("name").style.color = color;
   };
 
-
   /**
    * To generate certificates
    */
@@ -94,32 +94,31 @@ function App() {
         1.017 * parseFloat(window.getComputedStyle(text).fontSize, 10)
     );
 
-    let middle=parseFloat(text.style.left)+(text.getBoundingClientRect().width)/2
-    let testingelement=document.createElement('div')
-    document.getElementById('main').appendChild(testingelement)
+    let middle =
+      parseFloat(text.style.left) + text.getBoundingClientRect().width / 2;
+    let testingelement = document.createElement("div");
+    document.getElementById("main").appendChild(testingelement);
 
-    let leftindices=[]
-    csvData.data.slice(1,-1).forEach(element => {
+    let leftindices = [];
+    csvData.data.slice(1, -1).forEach((element) => {
+      testingelement.innerHTML = '<p id="testtext">' + element[0] + "</p>";
+      let mainele = document.getElementById("testtext");
+      testingelement.style.visibility = "hidden";
+      console.log(mainele, fontSize);
+      mainele.style.fontSize = fontSize + "px";
 
-      testingelement.innerHTML='<p id="testtext">'+element[0]+'</p>';
-      let mainele=document.getElementById('testtext')
-      testingelement.style.visibility="hidden"
-      console.log(mainele,fontSize)
-      mainele.style.fontSize=fontSize+"px"
-     
       // console.log(testingelement.innerHTML)
-      let newleft=middle-parseFloat(window.getComputedStyle(mainele).width)/2
-      if(newleft>0){
-        leftindices.push(newleft)
-      }
-      else{
-        leftindices.push(0)
+      let newleft =
+        middle - parseFloat(window.getComputedStyle(mainele).width) / 2;
+      if (newleft > 0) {
+        leftindices.push(newleft);
+      } else {
+        leftindices.push(0);
       }
     });
-    setLeft(leftindices)
-    console.log("LEFT",left)
-  
-    
+    setLeft(leftindices);
+    console.log("LEFT", left);
+
     setTextColor(text.style.color);
     var protofont = text.style.fontFamily;
     if (protofont === "Carattere, cursive") {
@@ -152,14 +151,13 @@ function App() {
       setFontfile("OpenSansCondensed-Light");
       console.log("No match");
     }
-
   };
- 
+
   /** To post data to the sever using fetch API
    */
   const post = async (e) => {
     setcsvuploaded(csvuploaded + "5");
-    console.log("csvuploaded",csvuploaded)
+    console.log("csvuploaded", csvuploaded);
     e.preventDefault();
     const res = await fetch("/api", {
       method: "POST",
@@ -180,54 +178,47 @@ function App() {
         emailsubject: emailSubject,
         emailbody: emailBody,
       }),
-    })
-  
-   console.log("RESPONSE",res)
+    });
+
+    console.log("RESPONSE", res);
   };
 
-/**
- * fetch api for getting logs of sent emails
- */
-  const getlogs=async (e) =>{
-      e.preventDefault();
-     return  await fetch (
-        "/logs" , {method : "GET"}
-      )
-      .then(res => res.json())
-      // .then(logobj => {
-      //   console.log( logobj)
-      // })
-      .catch((msg)=>{
-        console.log(msg)
-      })
-   
-    }
-   
-var gettinglogs="....";
-  const continuouslogs =(e)=>{
-    getlogs(e).then((logobj)=>{
+  /**
+   * fetch api for getting logs of sent emails
+   */
+  const getlogs = async (e) => {
+    e.preventDefault();
+    return await fetch("/logs", { method: "GET" })
+      .then((res) => res.json())
+      .catch((msg) => {
+        console.log(msg);
+      });
+  };
+
+  var gettinglogs = "....";
+  const continuouslogs = (e) => {
+    getlogs(e).then((logobj) => {
       // console.log("LOGS ",logobj)
-      if(gettinglogs!==logobj.log){
-        document.getElementById("progressbar").style.width =String(logobj.count) +"%"
-        if(logobj.log!=="All mails sent sucessfully"){
-          document.getElementById("logslabel").innerText=`Sending mail to ${logobj.log}`
-        }
-        else{
-          document.getElementById("logslabel").innerText=logobj.log
-            console.log("recursion ends here")
+      if (gettinglogs !== logobj.log) {
+        document.getElementById("progressbar").style.width =
+          String(logobj.count) + "%";
+        if (logobj.log !== "All mails sent sucessfully") {
+          document.getElementById(
+            "logslabel"
+          ).innerText = `Sending mail to ${logobj.log}`;
+        } else {
+          document.getElementById("logslabel").innerText = logobj.log;
+          console.log("recursion ends here");
           return 0;
         }
-        console.log(logobj,gettinglogs)
-        gettinglogs=logobj.log
-        continuouslogs(e)
+        console.log(logobj, gettinglogs);
+        gettinglogs = logobj.log;
+        continuouslogs(e);
+      } else {
+        continuouslogs(e);
       }
-     else{
-      continuouslogs(e)
-     }
-  
-     })
-
-  }
+    });
+  };
 
   const sendEmailFormat = () => {
     console.log("Email format Set");
@@ -265,14 +256,12 @@ var gettinglogs="....";
       csvuploaded.includes("2") &&
       csvuploaded.includes("3") &&
       csvuploaded.includes("4") &&
-      csvuploaded.includes("5") 
-
+      csvuploaded.includes("5")
     ) {
       document.getElementById("emaillogs").disabled = false;
     }
   }, [csvuploaded]);
 
- 
   useEffect(() => {
     document.querySelector("#sendmailbut").disabled = true;
     document.querySelector("#emaillogs").disabled = true;
@@ -332,9 +321,9 @@ var gettinglogs="....";
                     className="card-img "
                     alt="..."
                   />
-                   <div className="card-img-overlay">
+                  <div className="card-img-overlay">
                     <p style={{ fontSize: 5 + "rem" }} className="card-title ">
-                    Certificate Generator
+                      Certificate Generator
                     </p>
                     <h2
                       style={{ fontFamily: "Barlow" }}
@@ -352,10 +341,12 @@ var gettinglogs="....";
                 <div
                   className="card"
                   id="uploadcard"
-                  style={{ width: 100 + "%",
-                  backgroundImage: `url(${uptemp})`, }}
+                  style={{
+                    width: 100 + "%",
+                    backgroundImage: `url(${uptemp})`,
+                  }}
                 >
-                 <div className="card-body">
+                  <div className="card-body">
                     <h2
                       className="mt-5"
                       style={{
@@ -402,7 +393,7 @@ var gettinglogs="....";
         <div id="side-panel">
           <div id="tools">
             <img
-            alt=""
+              alt=""
               id="toggle"
               height="39px"
               width="38px"
@@ -433,7 +424,7 @@ var gettinglogs="....";
               title="Set Email Format"
             ></i>
 
-        <Modal
+            <Modal
               id="customModal"
               isOpen={modalIsOpen}
               onRequestClose={closeModal}
@@ -458,7 +449,7 @@ var gettinglogs="....";
                       }}
                       htmlFor="subject_input"
                     >
-                      Enter Subject 
+                      Enter Subject
                     </label>
                     <br />
                     <input
@@ -466,7 +457,7 @@ var gettinglogs="....";
                         width: 358 + "px",
                         marginLeft: 0 + "rem",
                         border: "1.4px solid",
-                        height: 50 + "px"
+                        height: 50 + "px",
                       }}
                       className="mb-2 mt-2"
                       type="text"
@@ -518,14 +509,20 @@ var gettinglogs="....";
                   />
                 </div>
               </div>
-
-              
             </Modal>
 
-            <i className="fas fa-pen fa-2x" id="pen" title="Enter Example Text"></i>
+            <i
+              className="fas fa-pen fa-2x"
+              id="pen"
+              title="Enter Example Text"
+            ></i>
             <i className="fas fa-font fa-2x" id="font" title="Choose Font"></i>
-  
-            <i className="fas fa-palette fa-2x" id="color_icon" title="Pick a color for example text"></i>
+
+            <i
+              className="fas fa-palette fa-2x"
+              id="color_icon"
+              title="Pick a color for example text"
+            ></i>
 
             <i
               className="fas fa-plus fa-2x"
@@ -544,9 +541,11 @@ var gettinglogs="....";
               }}
             ></i>
 
-            <i className="fas fa-key fa-2x" id="key" title="Sender's details"></i>
-            <i className="fas fa-clipboard-check fa-2x" ></i>
-            <i className="fas fa-spinner fa-2x"></i>
+            <i
+              className="fas fa-key fa-2x"
+              id="key"
+              title="Sender's details"
+            ></i>
           </div>
           <div id="controls">
             <br />
@@ -621,17 +620,6 @@ var gettinglogs="....";
             >
               Enter Details
             </button>
-            <button className="btn btn-light" id="emaillogs" onClick={continuouslogs}>Get Logs</button>
-            <label id="logslabel">Email Progress Logs</label>
-            <div className="progress">
-              <div
-                className="progress-bar progress-bar-striped progress-bar-animated"
-                id="progressbar"
-                style={{ width: 0 + "%" }}
-              ></div>
-            </div>
-
-
           </div>
         </div>
       </div>
@@ -643,9 +631,8 @@ var gettinglogs="....";
         aria-hidden="true"
       >
         <div className="modal-dialog modal-xl" role="document">
-        <div className="modal-content">
+          <div className="modal-content">
             <div className="modal-header">
-              
               <button
                 type="button"
                 className="close"
@@ -662,32 +649,29 @@ var gettinglogs="....";
                   <div>
                     <label className="label">Upload CSV </label>
                     <input
-                     id="upcsv"
-                     type="file"
-                     accept=".csv,.xlsx,.xls"
-                     name="csv"
-                     onChange={(e) => {
-                       // readCSV(e);
-                       /**
-                          * To parse CSV
-                          * Stores parsed CSV in csvData state
-                        */
-                       setcsvuploaded(csvuploaded + "1");
-                       const files = e.target.files;
-                         console.log(files);
-                         if (files) {
-                           console.log(files[0]);
-                           Papa.parse(files[0], {
-                             complete: function(results) {
-                               console.log("Finished:", results);
-                               setCsvData(results)
-                             }}
-                           )
-                         }
-
-                       }}
-
-
+                      id="upcsv"
+                      type="file"
+                      accept=".csv,.xlsx,.xls"
+                      name="csv"
+                      onChange={(e) => {
+                        // readCSV(e);
+                        /**
+                         * To parse CSV
+                         * Stores parsed CSV in csvData state
+                         */
+                        setcsvuploaded(csvuploaded + "1");
+                        const files = e.target.files;
+                        console.log(files);
+                        if (files) {
+                          console.log(files[0]);
+                          Papa.parse(files[0], {
+                            complete: function (results) {
+                              console.log("Finished:", results);
+                              setCsvData(results);
+                            },
+                          });
+                        }
+                      }}
                     />
                     <p style={{ marginLeft: 1.4 + "rem" }}>
                       Upload according to the format specified in guidelines
@@ -712,7 +696,7 @@ var gettinglogs="....";
                       placeholder="Enter your password"
                       onChange={(e) => {
                         setPassword(e.target.value);
-                        
+
                         setcsvuploaded(csvuploaded + "3");
                       }}
                     />
@@ -738,7 +722,6 @@ var gettinglogs="....";
                         } else {
                           alert("Please upload the Certificate Image first");
                         }
-                       
                       }}
                     >
                       Upload Template
@@ -763,13 +746,56 @@ var gettinglogs="....";
                       {" "}
                       Send Emails
                     </button>
-                    
                   </div>
+                </div>
+                <div className="container">
+                  <label
+                    id="logslabel"
+                    style={{
+                      marginLeft: 5 + "rem",
+                      marginBottom: 1 + "rem",
+                      fontSize: "larger",
+                    }}
+                  >
+                    Email Progress Logs
+                  </label>
+                  <div
+                    className="progress"
+                    style={{
+                      marginLeft: 5 + "rem",
+                      marginRight: 5 + "rem",
+                    }}
+                  >
+                    <div
+                      className="progress-bar progress-bar-striped progress-bar-animated"
+                      id="progressbar"
+                      style={{
+                        width: 0 + "%",
+                      }}
+                    ></div>
+                  </div>
+
+                  <button
+                    style={{
+                      backgroundImage: "radial-gradient(#002e62,#005d81)",
+                      color: "white",
+                      height: 60 + "px",
+                      width: 220 + "px",
+                      fontSize: 1.3 + "rem",
+                      marginTop: 2 + "rem",
+                      marginLeft: 5 + "rem",
+                      fontFamily: "Barlow",
+                    }}
+                    className="btn"
+                    id="emaillogs"
+                    onClick={continuouslogs}
+                  >
+                    Get Logs
+                  </button>
                 </div>
 
                 <hr />
               </div>
-          
             </div>
           </div>
         </div>

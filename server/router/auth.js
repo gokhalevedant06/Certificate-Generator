@@ -87,7 +87,7 @@ router.post("/api", async (req, res) => {
     
     let emailBody = emailbody;
     for (var j = 0; j < csvData[0].length; j++) {
-      emailBody = emailBody.replace(`${csvData[0][j]}`, element[j]);
+      emailBody = emailBody.replace(`$${csvData[0][j]}`, element[j]);
     }
     console.log(emailBody);
 
